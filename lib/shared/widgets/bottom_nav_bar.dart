@@ -1,4 +1,4 @@
-import 'package:chatapp/routes/app_navigator.dart';
+import 'package:chatapp/core/routes/app_navigator.dart';
 import 'package:chatapp/shared/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 

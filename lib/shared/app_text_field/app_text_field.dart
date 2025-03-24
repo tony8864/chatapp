@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -62,7 +60,6 @@ class AppTextField extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: const Color.fromARGB(255, 243, 243, 243),
-            
           ),
           child: TextFormField(
             controller: controller,

@@ -1,9 +1,11 @@
-import 'package:chatapp/routes/app_router.dart';
-import 'package:chatapp/shared/themes/app_colors.dart';
+import 'package:chatapp/chat_app.dart';
+import 'package:chatapp/core/service_locator/service_locator.dart';
+import 'package:chatapp/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -11,33 +13,8 @@ void main() {
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  final ThemeData theme = ThemeData();
-
-  MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: _themeData(),
-      debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter.getRouter(),
-    );
-  }
-
-  ThemeData _themeData() {
-    return theme.copyWith(
-      colorScheme: theme.colorScheme.copyWith(
-        primary: AppColors.primary,
-        secondary: AppColors.accent,
-      ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color.fromARGB(255, 16, 24, 32),
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 254, 231, 21)),
-      ),
-    );
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  setupLocator();
+  runApp(ChatApp());
 }
