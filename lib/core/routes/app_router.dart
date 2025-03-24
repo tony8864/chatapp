@@ -4,7 +4,9 @@ import 'package:chatapp/core/routes/app_navigator.dart';
 import 'package:chatapp/features/chats/chats_screen.dart';
 import 'package:chatapp/features/chats/conversation_screen.dart';
 import 'package:chatapp/features/contacts/contacts_screen.dart';
-import 'package:chatapp/features/explore/explore_screen.dart';
+import 'package:chatapp/features/explore/bloc/explore_bloc.dart';
+import 'package:chatapp/features/explore/repository/firebase_explore_repository.dart';
+import 'package:chatapp/features/explore/screens/explore_screen.dart';
 import 'package:chatapp/features/auth/screens/login/login_screen.dart';
 import 'package:chatapp/features/auth/screens/register/register_screen.dart';
 import 'package:chatapp/features/settings/bloc/settings_bloc.dart';
@@ -30,7 +32,16 @@ class AppRouter {
                 child: const SettingsScreen(),
               ),
         ),
-        GoRoute(path: '/home/explore', builder: (context, state) => const ExploreScren()),
+        GoRoute(
+          path: '/home/explore',
+          builder: (context, state) {
+            final exploreRepository = FirebaseExploreRepository();
+            return BlocProvider<ExploreBloc>(
+              create: (context) => ExploreBloc(exploreRepository: exploreRepository),
+              child: const ExploreScren(),
+            );
+          },
+        ),
         GoRoute(
           path: '/home/chats/test',
           builder: (context, state) {

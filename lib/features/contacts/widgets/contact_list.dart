@@ -1,4 +1,4 @@
-import 'package:chatapp/features/auth/screens/login/widgets/user_tile.dart';
+import 'package:chatapp/shared/widgets/user_tile.dart';
 import 'package:flutter/material.dart';
 
 class ContactList extends StatelessWidget {

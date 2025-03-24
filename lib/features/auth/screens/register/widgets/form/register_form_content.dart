@@ -7,7 +7,7 @@ import 'package:chatapp/features/auth/screens/register/widgets/text_fields/regis
 import 'package:chatapp/core/extensions/context_extensions.dart';
 import 'package:chatapp/shared/buttons/app_button.dart';
 import 'package:chatapp/shared/buttons/google_button.dart';
-import 'package:chatapp/shared/divider_with_text.dart';
+import 'package:chatapp/shared/widgets/divider_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

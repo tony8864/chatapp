@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:chatapp/core/routes/app_navigator.dart';
-import 'package:chatapp/features/explore/widgets/user_search_results.dart';
+import 'package:chatapp/features/explore/bloc/explore_bloc.dart';
+import 'package:chatapp/features/explore/screens/widgets/explore_search_builder.dart';
 import 'package:chatapp/shared/widgets/bottom_nav_bar.dart';
 import 'package:chatapp/shared/widgets/custom_search_bar.dart';
 import 'package:chatapp/shared/widgets/screen_title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExploreScren extends StatefulWidget {
   const ExploreScren({super.key});
@@ -15,58 +17,21 @@ class ExploreScren extends StatefulWidget {
 
 class _ExploreScrenState extends State<ExploreScren> {
   final _searchController = TextEditingController();
-
-  final List<String> fakeUsers = [
-    'Alice Johnson',
-    'Bob Smith',
-    'Charlie Lee',
-    'Diana Prince',
-    'Ethan Hunt',
-    'Fiona Adams',
-  ];
-
-  List<String> displayedResults = [];
-  bool isSearching = false;
   Timer? _debounce;
 
-  void performSearch(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        displayedResults = [];
-        isSearching = false;
-      });
-      return;
-    }
-
-    // TODO: Replace this block with backend API call
-    final filtered =
-        fakeUsers.where((user) => user.toLowerCase().contains(query.toLowerCase())).toList();
-
-    setState(() {
-      displayedResults = filtered;
-      isSearching = false;
-    });
-  }
-
   void _onSearchChanged(String query) {
-    setState(() {}); // For suffixIcon visibility
-
     _debounce?.cancel();
 
-    setState(() {
-      isSearching = true;
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      context.read<ExploreBloc>().add(SearchUsersEvent(query.trim()));
     });
 
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      performSearch(query.trim().toLowerCase());
-    });
+    setState(() {});
   }
 
   void _clearSearch() {
     _searchController.clear();
-    setState(() {
-      displayedResults = [];
-    });
+    context.read<ExploreBloc>().add(SearchUsersEvent(''));
   }
 
   @override
@@ -93,7 +58,7 @@ class _ExploreScrenState extends State<ExploreScren> {
               onClearChanged: _clearSearch,
             ),
             const SizedBox(height: 24),
-            UserSearchResults(isSearching: isSearching, displayedResults: displayedResults),
+            ExploreSearchBuilder(),
             BottomNavBar(appPage: AppPage.explore),
           ],
         ),
