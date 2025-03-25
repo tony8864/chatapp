@@ -3,7 +3,9 @@ import 'package:chatapp/features/auth/bloc/register_form_bloc/register_form_bloc
 import 'package:chatapp/core/routes/app_navigator.dart';
 import 'package:chatapp/features/chats/chats_screen.dart';
 import 'package:chatapp/features/chats/conversation_screen.dart';
-import 'package:chatapp/features/contacts/contacts_screen.dart';
+import 'package:chatapp/features/contacts/bloc/contacts_bloc.dart';
+import 'package:chatapp/features/contacts/repository/firebase_contacts_repository.dart';
+import 'package:chatapp/features/contacts/screen/contacts_screen.dart';
 import 'package:chatapp/features/explore/bloc/explore_bloc.dart';
 import 'package:chatapp/features/explore/repository/firebase_explore_repository.dart';
 import 'package:chatapp/features/explore/screens/explore_screen.dart';
@@ -22,7 +24,16 @@ class AppRouter {
       navigatorKey: navigatorKey,
       routes: [
         _authRoutes(),
-        GoRoute(path: '/home/contacts', builder: (context, state) => const ContactsScreen()),
+        GoRoute(
+          path: '/home/contacts',
+          builder: (context, state) {
+            final contactsRepository = FirebaseContactsRepository();
+            return BlocProvider<ContactsBloc>(
+              create: (context) => ContactsBloc(contactsRepository: contactsRepository),
+              child: ContactsScreen(),
+            );
+          },
+        ),
         GoRoute(path: '/home/chats', builder: (context, state) => ChatsScreen()),
         GoRoute(
           path: '/home/settings',
