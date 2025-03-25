@@ -5,8 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 class UserTile extends StatelessWidget {
   final String name;
   final Color avatarColor;
+  final Widget trailing;
 
-  const UserTile({super.key, required this.name, this.avatarColor = AppColors.primary});
+  const UserTile({
+    super.key,
+    required this.name,
+    this.avatarColor = AppColors.primary,
+    required this.trailing,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,7 @@ class UserTile extends StatelessWidget {
         child: Text(name[0], style: GoogleFonts.merriweatherSans(color: Colors.white)),
       ),
       title: Text(name, style: GoogleFonts.merriweatherSans(fontSize: 14)),
-      trailing: IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
+      trailing: trailing,
     );
   }
 }

@@ -12,20 +12,51 @@ class FirebaseExploreRepository implements ExploreRepository {
       return [];
     }
 
-    final currentUid = FirebaseAuth.instance.currentUser?.uid;
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) {
+      return [];
+    }
 
+    // get user's contacts
+    final contactsSnapshots =
+        await _store.collection('users').doc(uid).collection('contacts').get();
+
+    final contactUids = contactsSnapshots.docs.map((doc) => doc.id).toSet();
+
+    // search user by keywords
     final snapshot =
         await _store
             .collection('users')
             .where('keywords', arrayContains: query.toLowerCase())
             .get();
 
+    // filter: not self, not already in contacts
     final users =
         snapshot.docs
             .map((doc) => AppUser.fromMap(doc.data(), doc.id))
-            .where((user) => user.uid != currentUid)
+            .where((user) => user.uid != uid && !contactUids.contains(user.uid))
             .toList();
 
     return users;
+  }
+
+  @override
+  Future<void> addContact(AppUser contact) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid == null) {
+      throw Exception('User not logged in.');
+    }
+
+    try {
+      await _store
+          .collection('users')
+          .doc(uid)
+          .collection('contacts')
+          .doc(contact.uid)
+          .set(contact.toMap());
+    } catch (e) {
+      throw Exception('Failed to add contact');
+    }
   }
 }

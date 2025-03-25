@@ -9,30 +9,6 @@ class ContactsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fakeContacts = [
-      'Alice Johnson',
-      'Bob Smith',
-      'Charlie Lee',
-      'Diana Prince',
-      'Ethan Hunt',
-      'Fiona Adams',
-      'George Brown',
-      'Alice Johnson',
-      'Bob Smith',
-      'Charlie Lee',
-      'Diana Prince',
-      'Ethan Hunt',
-      'Fiona Adams',
-      'George Brown',
-      'Alice Johnson',
-      'Bob Smith',
-      'Charlie Lee',
-      'Diana Prince',
-      'Ethan Hunt',
-      'Fiona Adams',
-      'George Brown',
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -40,7 +16,8 @@ class ContactsScreen extends StatelessWidget {
           children: [
             ScreenTitle(title: 'Contacts'),
             Divider(color: const Color.fromARGB(255, 195, 195, 195)),
-            Expanded(child: ContactList(names: fakeContacts)),
+            //Expanded(child: ContactList(names: fakeContacts)),
+            const Spacer(),
             BottomNavBar(appPage: AppPage.contacts),
           ],
         ),

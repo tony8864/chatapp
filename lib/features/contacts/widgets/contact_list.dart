@@ -13,7 +13,7 @@ class ContactList extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),
-          child: UserTile(name: names[index]),
+          child: UserTile(name: names[index], trailing: SizedBox()),
         );
       },
       separatorBuilder:

@@ -1,4 +1,5 @@
 import 'package:chatapp/features/auth/models/app_user.dart';
+import 'package:chatapp/features/explore/screens/widgets/explore_pop_menu.dart';
 import 'package:chatapp/shared/widgets/user_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,10 @@ class UserSearchResults extends StatelessWidget {
       itemCount: displayedResults.length,
       itemBuilder: (context, index) {
         final user = displayedResults[index];
-        return UserTile(name: '${user.firstname} ${user.lastname}');
+        return UserTile(
+          name: '${user.firstname} ${user.lastname}',
+          trailing: ExplorePopMenu(resultUser: displayedResults[index]),
+        );
       },
       separatorBuilder: (_, __) => const Divider(indent: 16, endIndent: 16),
     );

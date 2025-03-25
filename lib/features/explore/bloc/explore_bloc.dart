@@ -11,6 +11,18 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   ExploreBloc({required this.exploreRepository}) : super(ExploreState()) {
     on<SearchUsersEvent>(_onSearchUsers);
+    on<AddContactEvent>(_onAddContact);
+  }
+
+  Future<void> _onAddContact(AddContactEvent event, Emitter<ExploreState> emit) async {
+    try {
+      await exploreRepository.addContact(event.user);
+      final updatedResults = List<AppUser>.from(state.results)
+        ..removeWhere((user) => user.uid == event.user.uid);
+      emit(state.copyWith(results: updatedResults, status: ExploreStateStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: ExploreStateStatus.failure, errorMsg: 'Failed to add contact'));
+    }
   }
 
   Future<void> _onSearchUsers(SearchUsersEvent event, Emitter<ExploreState> emit) async {
@@ -19,7 +31,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       return;
     }
 
-    emit(state.copyWith(status: ExploreStateStatus.loading));
+    emit(state.copyWith(status: ExploreStateStatus.loading, query: event.query));
 
     try {
       final users = await exploreRepository.searchUsers(event.query);

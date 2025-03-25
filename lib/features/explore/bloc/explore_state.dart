@@ -13,7 +13,12 @@ class ExploreState extends Equatable {
     this.errorMsg = '',
   });
 
-  ExploreState copyWith({ExploreStateStatus? status, List<AppUser>? results, String? errorMsg}) {
+  ExploreState copyWith({
+    ExploreStateStatus? status,
+    List<AppUser>? results,
+    String? errorMsg,
+    String? query,
+  }) {
     return ExploreState(
       status: status ?? this.status,
       errorMsg: errorMsg ?? this.errorMsg,

@@ -7,3 +7,8 @@ class SearchUsersEvent extends ExploreEvent {
 
   SearchUsersEvent(this.query);
 }
+
+class AddContactEvent extends ExploreEvent {
+  final AppUser user;
+  AddContactEvent(this.user);
+}
