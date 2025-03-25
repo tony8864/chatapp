@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'chat_tile.dart'; // make sure this exists
+import 'chat_tile.dart';
 
 class ChatList extends StatelessWidget {
   final List<Map<String, dynamic>> chats;

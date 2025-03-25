@@ -1,4 +1,3 @@
-import 'package:chatapp/core/routes/app_navigator.dart';
 import 'package:flutter/material.dart';
 
 class ChatTile extends StatelessWidget {
@@ -49,9 +48,7 @@ class ChatTile extends StatelessWidget {
             ),
         ],
       ),
-      onTap: () {
-        AppNavigator.push('/home/chats/test');
-      },
+      onTap: () {},
     );
   }
 }

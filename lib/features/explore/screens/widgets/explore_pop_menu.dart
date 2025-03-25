@@ -39,7 +39,7 @@ class ExplorePopMenu extends StatelessWidget {
         children: [
           Icon(Icons.person_add),
           SizedBox(width: 8),
-          Text('Add Contact', style: GoogleFonts.merriweatherSans(fontSize: 14)),
+          Text('Add', style: GoogleFonts.merriweatherSans(fontSize: 14)),
         ],
       ),
     );

@@ -1,8 +1,9 @@
 import 'package:chatapp/features/auth/bloc/login_form_bloc/login_form_bloc.dart';
 import 'package:chatapp/features/auth/bloc/register_form_bloc/register_form_bloc.dart';
 import 'package:chatapp/core/routes/app_navigator.dart';
-import 'package:chatapp/features/chats/chats_screen.dart';
-import 'package:chatapp/features/chats/conversation_screen.dart';
+import 'package:chatapp/features/chats/bloc/chat_bloc.dart';
+import 'package:chatapp/features/chats/repository/firebase_chat_repository.dart';
+import 'package:chatapp/features/chats/screens/chats_screen.dart';
 import 'package:chatapp/features/contacts/bloc/contacts_bloc.dart';
 import 'package:chatapp/features/contacts/repository/firebase_contacts_repository.dart';
 import 'package:chatapp/features/contacts/screen/contacts_screen.dart';
@@ -15,6 +16,7 @@ import 'package:chatapp/features/settings/bloc/settings_bloc.dart';
 import 'package:chatapp/features/settings/screens/settings_screen.dart';
 import 'package:chatapp/features/auth/screens/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -28,13 +30,28 @@ class AppRouter {
           path: '/home/contacts',
           builder: (context, state) {
             final contactsRepository = FirebaseContactsRepository();
-            return BlocProvider<ContactsBloc>(
-              create: (context) => ContactsBloc(contactsRepository: contactsRepository),
+            final chatRepository = GetIt.I.get<FirebaseChatRepository>();
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<ContactsBloc>(
+                  create: (context) => ContactsBloc(contactsRepository: contactsRepository),
+                ),
+                BlocProvider(create: (context) => ChatBloc(chatRepository: chatRepository)),
+              ],
               child: ContactsScreen(),
             );
           },
         ),
-        GoRoute(path: '/home/chats', builder: (context, state) => ChatsScreen()),
+        GoRoute(
+          path: '/home/chats',
+          builder: (context, state) {
+            final chatRepository = GetIt.I.get<FirebaseChatRepository>();
+            return BlocProvider<ChatBloc>(
+              create: (context) => ChatBloc(chatRepository: chatRepository),
+              child: ChatsScreen(),
+            );
+          },
+        ),
         GoRoute(
           path: '/home/settings',
           builder:
@@ -47,35 +64,15 @@ class AppRouter {
           path: '/home/explore',
           builder: (context, state) {
             final exploreRepository = FirebaseExploreRepository();
+            final chatRepository = GetIt.I.get<FirebaseChatRepository>();
             return BlocProvider<ExploreBloc>(
-              create: (context) => ExploreBloc(exploreRepository: exploreRepository),
+              create:
+                  (context) => ExploreBloc(
+                    exploreRepository: exploreRepository,
+                    chatRepository: chatRepository,
+                  ),
               child: const ExploreScren(),
             );
-          },
-        ),
-        GoRoute(
-          path: '/home/chats/test',
-          builder: (context, state) {
-            final List<Map<String, String>> fakeMessages = [
-              {'sender': 'me', 'text': 'Hey1!'},
-              {'sender': 'them', 'text': 'Hello'},
-              {'sender': 'me', 'text': 'How are you doing?'},
-              {'sender': 'them', 'text': 'All good, you?'},
-              {'sender': 'me', 'text': 'Hey!'},
-              {'sender': 'them', 'text': 'Hello'},
-              {'sender': 'me', 'text': 'How are you doing?'},
-              {'sender': 'them', 'text': 'All good, you?'},
-              {'sender': 'me', 'text': 'Hey!'},
-              {'sender': 'them', 'text': 'Hello'},
-              {'sender': 'me', 'text': 'How are you doing?'},
-              {'sender': 'them', 'text': 'All good, you?'},
-              {'sender': 'me', 'text': 'Hey!'},
-              {'sender': 'them', 'text': 'Hello'},
-              {'sender': 'me', 'text': 'How are you doing?'},
-              {'sender': 'them', 'text': 'All good, you?'},
-            ];
-
-            return ConversationScreen(userName: 'Alice', userInitial: 'A', messages: fakeMessages);
           },
         ),
       ],

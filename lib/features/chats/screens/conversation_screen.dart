@@ -1,18 +1,20 @@
-import 'package:chatapp/features/chats/widgets/chat_input.dart';
-import 'package:chatapp/features/chats/widgets/conversation_list.dart';
+import 'package:chatapp/features/chats/screens/widgets/conversation/conversation_list_stream_builder.dart';
+import 'package:chatapp/features/chats/screens/widgets/conversation/message_input.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ConversationScreen extends StatefulWidget {
+  final String chatId;
+  final String senderId;
   final String userName;
   final String userInitial;
-  final List<Map<String, String>> messages;
 
   const ConversationScreen({
     super.key,
+    required this.chatId,
+    required this.senderId,
     required this.userName,
     required this.userInitial,
-    required this.messages,
   });
 
   @override
@@ -32,7 +34,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: Column(
@@ -44,8 +45,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
               userName: widget.userName,
             ),
             Divider(color: const Color.fromARGB(255, 195, 195, 195)),
-            Expanded(child: ConversationList(messages: widget.messages)),
-            ChatInput(controller: _messageController),
+            ConversationListStreamBuilder(chatId: widget.chatId),
+            MessageInput(
+              controller: _messageController,
+              chatId: widget.chatId,
+              senderId: widget.senderId,
+            ),
           ],
         ),
       ),

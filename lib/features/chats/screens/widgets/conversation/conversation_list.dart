@@ -1,19 +1,20 @@
+import 'package:chatapp/features/chats/model/message.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ConversationList extends StatelessWidget {
-  final List<Map<String, String>> messages;
-
+  final List<Message> messages;
   const ConversationList({super.key, required this.messages});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-      reverse: true, 
+      reverse: false,
       itemCount: messages.length,
       itemBuilder: (context, index) {
         final message = messages[messages.length - 1 - index];
-        final isMe = message['sender'] == 'me';
+        final isMe = message.senderId == FirebaseAuth.instance.currentUser?.uid;
 
         return Align(
           alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -26,8 +27,8 @@ class ConversationList extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
-              message['text'] ?? '',
-              style: TextStyle(color: isMe ? Colors.white : Colors.black87, fontSize: 14),
+              message.content,
+              style: TextStyle(color: isMe ? Colors.white : const Color.fromARGB(221, 0, 0, 0), fontSize: 14),
             ),
           ),
         );
