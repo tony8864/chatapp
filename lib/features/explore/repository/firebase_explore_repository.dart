@@ -39,24 +39,4 @@ class FirebaseExploreRepository implements ExploreRepository {
 
     return users;
   }
-
-  @override
-  Future<void> addContact(AppUser contact) async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-
-    if (uid == null) {
-      throw Exception('User not logged in.');
-    }
-
-    try {
-      await _store
-          .collection('users')
-          .doc(uid)
-          .collection('contacts')
-          .doc(contact.uid)
-          .set(contact.toMap());
-    } catch (e) {
-      throw Exception('Failed to add contact');
-    }
-  }
 }

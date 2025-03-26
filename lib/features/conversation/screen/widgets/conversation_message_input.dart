@@ -1,19 +1,13 @@
-import 'package:chatapp/features/chats/bloc/chat_bloc.dart';
+import 'package:chatapp/features/conversation/bloc/message_bloc.dart';
 import 'package:chatapp/shared/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MessageInput extends StatelessWidget {
+class ConversationMessageInput extends StatelessWidget {
   final TextEditingController controller;
   final String chatId;
-  final String senderId;
 
-  const MessageInput({
-    super.key,
-    required this.controller,
-    required this.chatId,
-    required this.senderId,
-  });
+  const ConversationMessageInput({super.key, required this.controller, required this.chatId});
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +45,7 @@ class MessageInput extends StatelessWidget {
               onPressed: () {
                 final text = controller.text.trim();
                 if (text.isEmpty) return;
-                context.read<ChatBloc>().add(
-                  SendMessageEvent(chatId: chatId, senderId: senderId, content: controller.text),
-                );
+                context.read<MessageBloc>().add(SendMessageEvent(chatId: chatId, content: text));
                 controller.clear();
               },
               color: Theme.of(context).primaryColor,

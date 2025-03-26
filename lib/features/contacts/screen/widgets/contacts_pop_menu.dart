@@ -1,8 +1,8 @@
-import 'package:chatapp/features/auth/models/app_user.dart';
-import 'package:chatapp/features/chats/bloc/chat_bloc.dart';
-import 'package:chatapp/features/chats/screens/conversation_screen.dart';
 import 'package:chatapp/features/contacts/bloc/contacts_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chatapp/features/contacts/model/contact.dart';
+import 'package:chatapp/features/conversation/bloc/message_bloc.dart';
+import 'package:chatapp/features/conversation/repository/firebase_message_repository.dart';
+import 'package:chatapp/features/conversation/screen/conversation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,13 +10,11 @@ import 'package:google_fonts/google_fonts.dart';
 enum _ContactsMenuAction { removeContact, chat }
 
 class ContactsPopMenu extends StatelessWidget {
-  final AppUser contact;
+  final Contact contact;
 
   const ContactsPopMenu({super.key, required this.contact});
 
   void _onMenuItemSelected(BuildContext context, _ContactsMenuAction action) {
-    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
-    final chatId = _generateChatId(currentUserId, contact.uid);
     switch (action) {
       case _ContactsMenuAction.removeContact:
         context.read<ContactsBloc>().add(RemoveContactEvent(contact.uid));
@@ -25,25 +23,21 @@ class ContactsPopMenu extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder:
-                (_) => BlocProvider.value(
-                  value: BlocProvider.of<ChatBloc>(context),
-                  child: ConversationScreen(
-                    userName: '${contact.firstname} ${contact.lastname}',
-                    userInitial: contact.firstname[0],
-                    chatId: chatId,
-                    senderId: currentUserId,
-                  ),
+            builder: (context) {
+              final messageRepository = FirebaseMessageRepository();
+              return BlocProvider(
+                create: (context) => MessageBloc(messageRepository: messageRepository),
+                child: ConversationScreen(
+                  chatId: contact.chatId,
+                  userName: '${contact.firstname} ${contact.lastname}',
+                  userInitial: '${contact.firstname[0]}${contact.lastname[0]}',
                 ),
+              );
+            },
           ),
         );
         return;
     }
-  }
-
-  String _generateChatId(String uid1, String uid2) {
-    final ids = [uid1, uid2]..sort();
-    return ids.join('_');
   }
 
   @override

@@ -1,8 +1,9 @@
+import 'package:chatapp/features/chats/model/participant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatThread {
   final String id;
-  final List<String> participants;
+  final List<Participant> participants;
   final String lastMessage;
   final DateTime lastUpdated;
 
@@ -16,7 +17,7 @@ class ChatThread {
   factory ChatThread.fromMap(Map<String, dynamic> map, String id) {
     return ChatThread(
       id: id,
-      participants: List<String>.from(map['participants']),
+      participants: List<Participant>.from(map['participants']),
       lastMessage: map['lastMessage'] ?? '',
       lastUpdated: (map['lastUpdated'] as Timestamp).toDate(),
     );
@@ -24,7 +25,7 @@ class ChatThread {
 
   Map<String, dynamic> toMap() {
     return {
-      'participants': participants,
+      'participants': participants.map((p) => p.toMap()).toList(),
       'lastMessage': lastMessage,
       'lastUpdated': Timestamp.fromDate(lastUpdated),
     };

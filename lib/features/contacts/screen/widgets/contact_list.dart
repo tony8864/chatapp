@@ -1,22 +1,22 @@
-import 'package:chatapp/features/auth/models/app_user.dart';
+import 'package:chatapp/features/contacts/model/contact.dart';
 import 'package:chatapp/features/contacts/screen/widgets/contacts_pop_menu.dart';
 import 'package:chatapp/shared/widgets/user_tile.dart';
 import 'package:flutter/material.dart';
 
 class ContactList extends StatelessWidget {
-  final List<AppUser> users;
+  final List<Contact> contacts;
 
-  const ContactList({super.key, required this.users});
+  const ContactList({super.key, required this.contacts});
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: users.length,
+      itemCount: contacts.length,
       itemBuilder: (context, index) {
-        final fullname = '${users[index].firstname} ${users[index].lastname}';
+        final fullname = '${contacts[index].firstname} ${contacts[index].lastname}';
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),
-          child: UserTile(name: fullname, trailing: ContactsPopMenu(contact: users[index])),
+          child: UserTile(name: fullname, trailing: ContactsPopMenu(contact: contacts[index])),
         );
       },
       separatorBuilder:

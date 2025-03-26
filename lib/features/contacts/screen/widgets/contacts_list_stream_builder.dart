@@ -1,4 +1,4 @@
-import 'package:chatapp/features/auth/models/app_user.dart';
+import 'package:chatapp/features/contacts/model/contact.dart';
 import 'package:chatapp/features/contacts/screen/widgets/contact_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,12 +28,12 @@ class ContactsListStreamBuilder extends StatelessWidget {
               return Center(child: Text('No contacts found.'));
             }
 
-            final users =
+            final contacts =
                 docs.map((doc) {
                   final data = doc.data();
-                  return AppUser.fromMap(data, doc.id);
+                  return Contact.fromMap(data, doc.id);
                 }).toList();
-            return ContactList(users: users);
+            return ContactList(contacts: contacts);
           }
         },
       ),
