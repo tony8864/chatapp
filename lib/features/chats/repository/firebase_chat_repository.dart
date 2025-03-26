@@ -25,6 +25,7 @@ class FirebaseChatRepository implements ChatRepository {
           Participant(id: user1Id, name: usernames[0]),
           Participant(id: user2Id, name: usernames[1]),
         ],
+        participantIds: userIds,
         lastMessage: '',
         lastUpdated: DateTime.now(),
       );

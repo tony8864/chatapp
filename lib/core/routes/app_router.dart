@@ -6,9 +6,6 @@ import 'package:chatapp/features/chats/screens/chats_screen.dart';
 import 'package:chatapp/features/contacts/bloc/contacts_bloc.dart';
 import 'package:chatapp/features/contacts/repository/firebase_contacts_repository.dart';
 import 'package:chatapp/features/contacts/screen/contacts_screen.dart';
-import 'package:chatapp/features/conversation/bloc/message_bloc.dart';
-import 'package:chatapp/features/conversation/repository/firebase_message_repository.dart';
-import 'package:chatapp/features/conversation/screen/conversation_screen.dart';
 import 'package:chatapp/features/explore/bloc/explore_bloc.dart';
 import 'package:chatapp/features/explore/repository/firebase_explore_repository.dart';
 import 'package:chatapp/features/explore/screens/explore_screen.dart';
@@ -23,7 +20,7 @@ import 'package:go_router/go_router.dart';
 class AppRouter {
   static GoRouter getRouter(bool isAuthenticated) {
     return GoRouter(
-      initialLocation: isAuthenticated ? '/home/contacts' : '/auth',
+      initialLocation: isAuthenticated ? '/home/chats' : '/auth',
       navigatorKey: navigatorKey,
       routes: [
         _authRoutes(),
@@ -41,20 +38,6 @@ class AppRouter {
             );
           },
         ),
-        // GoRoute(
-        //   path: '/home/chats',
-        //   builder: (context, state) {
-        //     final messageRepository = FirebaseMessageRepository();
-        //     return BlocProvider(
-        //       create: (context) => MessageBloc(messageRepository: messageRepository),
-        //       child: ConversationScreen(
-        //         chatId: chatId,
-        //         userName: userName,
-        //         userInitial: userInitial,
-        //       ),
-        //     );
-        //   },
-        // ),
         GoRoute(path: '/home/chats', builder: (context, state) => ChatsScreen()),
         GoRoute(
           path: '/home/settings',
