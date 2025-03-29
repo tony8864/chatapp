@@ -1,16 +1,65 @@
-# chatapp
+# Chat application
 
-A new Flutter project.
+This project provides a chat application with Firebase authentication. Users can easily register, log in, explore user profiles, add contacts, and engage in seamless real-time chat conversations.
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
+Below are screenshots demonstrating various aspects of the application:
 
-A few resources to get you started if this is your first Flutter project:
+### Welcoming
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Screenshot 1](assets/screenshots/onboard.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+### Register
+
+![Screenshot 2](assets/screenshots/register.png)
+
+---
+
+### Login
+
+![Screenshot 3](assets/screenshots/login.png)
+
+---
+
+### Explore users
+
+![Screenshot 4](assets/screenshots/explore.png)
+
+---
+
+### Add to contacts
+
+![Screenshot 5](assets/screenshots/explore_add.png)
+
+---
+
+### View contacts
+
+![Screenshot 6](assets/screenshots/contacts.png)
+
+---
+
+### Chat with contact
+
+![Screenshot 7](assets/screenshots/contacts_message.png)
+
+---
+
+### Send messages
+
+![Screenshot 8](assets/screenshots/message.png)
+
+---
+
+### View your chats
+
+![Screenshot 9](assets/screenshots/chats.png)
+
+---
+
+### Logout
+
+![Screenshot 10](assets/screenshots/logout.png)
